@@ -8,20 +8,19 @@ import { Button, Description, Form, Input, Subtitle } from './styles'
 
 export function Home() {
   const [filterText, setFilterText] = useState('')
+  const [filteredPosts, setFilteredPosts] = useState(posts)
 
   function handleFilterChange(event: ChangeEvent<HTMLInputElement>) {
-    setFilterText(event.target.value.toLowerCase())
-    console.log(`Texto do filtro: ${event.target.value}`)
+    setFilterText(event.target.value)
   }
 
   function handleFormSubmit(event: FormEvent) {
     event.preventDefault()
 
-    const filteredPosts = posts.filter((post) =>
-      post.title.toLowerCase().includes(filterText),
+    const filtered = posts.filter((post) =>
+      post.title.toLowerCase().includes(filterText.toLowerCase()),
     )
-
-    console.log('Posts filtrados:', filteredPosts)
+    setFilteredPosts(filtered)
   }
 
   return (
@@ -40,7 +39,7 @@ export function Home() {
       <main>
         <Subtitle>Posts Recentes</Subtitle>
         <Description>Escolhemos a dedo nossos artigos favoritos</Description>
-        <PostsList posts={posts} />
+        <PostsList posts={filteredPosts} />
       </main>
 
       <Footer />
